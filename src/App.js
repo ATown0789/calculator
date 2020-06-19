@@ -45,18 +45,26 @@ class App extends React.Component{
 		let {currentVal: current, allDisplay: all} = this.state;
 		let val = e.target.value;
 		if(current.length === 1 && current === '0'){
-			if(val !== '0'){
+			if(val !== '0' && val !== '-'){
 				this.setState({
 					currentVal: val,
 					allDisplay: all === '0' ? val : all + val
 				})
-			}	
+			}
 		}
 		else if(current.length === 1 && !isNum.test(current)){
-			this.setState({
-				currentVal: val,
-				allDisplay: val === '0' ? all : all + val
-			})
+				if(current === '-'){
+					this.setState({
+						currentVal: current + val,
+						allDisplay: all + val
+					})
+				}
+				else{
+					this.setState({
+						currentVal: val,
+						allDisplay: all === '0' ? val : val === '-' ? val : all + val
+					});
+				}
 		}
 		else{
 			this.setState({
@@ -70,11 +78,36 @@ class App extends React.Component{
 	};
 	
 	opperator(e){
+		let {currentVal: current, allDisplay: all} = this.state;
 		let opp = e.target.value
-		this.setState({
-			currentVal: opp,
-			allDisplay: this.state.allDisplay + opp
-		})
+		if(current.length === 1 && !isNum.test(current)){
+			if(opp === '-'){
+				this.setState({
+					currentVal: current + opp,
+					allDisplay: all.length === 1 ? current + opp : all.slice(0, -1) + current + opp
+				})
+			}
+			else{
+				this.setState({
+					currentVal: opp,
+					allDisplay: all.length === 1 ? opp : all.slice(0, -1) + opp
+				})
+			}
+		}
+		else{
+			if(current === '--'){
+				this.setState({
+					curentVal: current,
+					allDisplay: all
+				})
+			}
+			else{
+				this.setState({
+					currentVal: opp,
+					allDisplay: all.length === 1 ? opp : all + opp
+				})
+			}
+		}
 	}	
 	
 	
