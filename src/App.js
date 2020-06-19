@@ -3,6 +3,7 @@ import './App.css';
 import Buttons from './components/Buttons';
 
 let isNum = /[0-9]/;
+let hasDecimal = /\./;
 
 class App extends React.Component{
 	constructor(props){
@@ -18,6 +19,20 @@ class App extends React.Component{
 		this.clear = this.clear.bind(this);
 		this.opperator = this.opperator.bind(this);
 		this.equals = this.equals.bind(this);
+		this.decimal = this.decimal.bind(this);
+	}
+	
+	decimal(){
+		if(hasDecimal.test(this.state.currentVal)){
+			console.log('has decimal');
+		}
+		else{
+			this.setState({
+				currentVal: this.state.currentVal + '.',
+				allDisplay: this.state.allDisplay + '.'
+			})
+		}
+		
 	}
 	
 	equals(){
@@ -81,7 +96,8 @@ class App extends React.Component{
 		number = {this.number}
 		clear = {this.clear}
 		opperator = {this.opperator}
-		equals = {this.equals}/>
+		equals = {this.equals}
+		decimal = {this.decimal}/>
 	  <h3 id = 'display'>currentDisplay: {this.state.currentVal}</h3>
 	  <h3>allDisplay: {this.state.allDisplay}</h3>
     </div>

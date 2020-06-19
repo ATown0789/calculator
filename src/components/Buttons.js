@@ -77,10 +77,25 @@ class Buttons extends React.Component{
 					value = '+'>
 						+
 				</button>
-				<button id = 'subtract'>-</button>
-				<button id = 'multiply'>x</button>
-				<button id = 'divide'>/</button>
-				<button id = 'decimal'>.</button>
+				<button id = 'subtract'
+					onClick = {this.props.opperator}
+					value = '-'>
+						-
+				</button>
+				<button id = 'multiply'
+					onClick = {this.props.opperator}
+					value = '*'>
+						x
+				</button>
+				<button id = 'divide'
+					onClick = {this.props.opperator}
+					value = '/'>
+						/
+				</button>
+				<button id = 'decimal'
+					onClick = {this.props.decimal}>
+						.
+				</button>
 				<button 
 					id = 'clear'
 					onClick = {this.props.clear}>
