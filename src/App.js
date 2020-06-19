@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import Buttons from './components/Buttons';
 
-let isNum = /[0-9]/;
+let isNum = /[0-9]$/;
 let hasDecimal = /\./;
 
 class App extends React.Component{
@@ -12,7 +12,8 @@ class App extends React.Component{
 		this.state = {
 			previousVal: '0',
 			currentVal: '0',
-			allDisplay: '0'
+			allDisplay: '0',
+			evaluated: false
 		}
 		
 		this.number = this.number.bind(this);
@@ -36,15 +37,26 @@ class App extends React.Component{
 	}
 	
 	equals(){
+		let expression = this.state.allDisplay;
+		let regex = /x/g;
+		let answer = eval(expression.replace(regex,'*'));
 		this.setState({
-			currentVal: this.state.currentVal[1]+this.state.currentVal[3]
+			currentVal: answer,
+			allDisplay: this.state.allDisplay + " = " + answer,
+			evaluated: true
 		})
-	}
+      
+    }
+	
 	
 	number(e){
-		let {currentVal: current, allDisplay: all} = this.state;
+		let {evaluated, currentVal: current, allDisplay: all} = this.state;
 		let val = e.target.value;
-		if(current.length === 1 && current === '0'){
+		if(evaluated){
+			this.clear();
+		}
+		
+		else if(current.length === 1 && current === '0'){
 			if(val !== '0' && val !== '-'){
 				this.setState({
 					currentVal: val,
@@ -74,6 +86,7 @@ class App extends React.Component{
 			})
 		}
 		
+		console.log(this.state);
 		
 	};
 	
@@ -95,18 +108,10 @@ class App extends React.Component{
 			}
 		}
 		else{
-			if(current === '--'){
-				this.setState({
-					curentVal: current,
-					allDisplay: all
-				})
-			}
-			else{
-				this.setState({
+			this.setState({
 					currentVal: opp,
 					allDisplay: all.length === 1 ? opp : all + opp
 				})
-			}
 		}
 	}	
 	
@@ -115,7 +120,8 @@ class App extends React.Component{
 		this.setState({
 			allDisplay: '0',
 			currentVal: '0',
-			previousVal: '0'
+			previousVal: '0',
+			evaluated: false
 		})
 		
 	}
