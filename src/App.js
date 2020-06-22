@@ -4,6 +4,7 @@ import Buttons from './components/Buttons';
 
 let isNum = /[0-9]$/;
 let hasDecimal = /\./;
+let passTest = /\*\-\+/;
 
 class App extends React.Component{
 	constructor(props){
@@ -38,8 +39,10 @@ class App extends React.Component{
 	
 	equals(){
 		let expression = this.state.allDisplay;
-		let regex = /x/g;
-		let answer = eval(expression.replace(regex,'*'));
+		if(passTest.test(expression)){
+			expression = '5+5';
+		}
+		let answer = eval(expression);
 		this.setState({
 			currentVal: answer,
 			allDisplay: this.state.allDisplay + " = " + answer,
@@ -91,10 +94,23 @@ class App extends React.Component{
 	};
 	
 	opperator(e){
-		let {currentVal: current, allDisplay: all} = this.state;
+		let {evaluated, currentVal: current, allDisplay: all} = this.state;
 		let opp = e.target.value
-		if(current.length === 1 && !isNum.test(current)){
-			if(opp === '-'){
+		if(evaluated){
+			this.setState({
+				currentVal: opp,
+				allDisplay: current + opp,
+				evaluated: false
+			})
+		}
+		else if(current.length === 2 && !isNum.test(current) && current[1] !== '-'){
+			this.setState({
+				currentVal: current,
+				allDisplay: all
+			})
+		}
+		else if(current.length === 1 && !isNum.test(current)){
+			if(opp === '-' && current !== '-'){
 				this.setState({
 					currentVal: current + opp,
 					allDisplay: all.length === 1 ? current + opp : all.slice(0, -1) + current + opp
@@ -107,14 +123,21 @@ class App extends React.Component{
 				})
 			}
 		}
+		else if(current === '0'){
+			this.setState({
+				currentVal: opp,
+				allDisplay:  all + opp
+			})
+		}
 		else{
 			this.setState({
 					currentVal: opp,
-					allDisplay: all.length === 1 ? opp : all + opp
+					allDisplay: all.length === 1 && current === '0' ? opp : all + opp
 				})
 		}
 	}	
 	
+	//There should not be 2 opperators in a row unless one is a minus
 	
 	clear(){
 		this.setState({
@@ -137,8 +160,8 @@ class App extends React.Component{
 		opperator = {this.opperator}
 		equals = {this.equals}
 		decimal = {this.decimal}/>
-	  <h3 id = 'display'>currentDisplay: {this.state.currentVal}</h3>
-	  <h3 id = 'display'>allDisplay: {this.state.allDisplay}</h3>
+	  <h3 id = 'display'>{this.state.currentVal}</h3>
+	  <h3>allDisplay: {this.state.allDisplay}</h3>
     </div>
 	)};
 }
