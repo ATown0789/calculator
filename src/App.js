@@ -153,7 +153,7 @@ class App extends React.Component{
 	render(){
   return (
     <div className="App">
-      <h1>Hello World</h1>
+      <h1>Calculator</h1>
 	  <Buttons 
 		number = {this.number}
 		clear = {this.clear}
@@ -161,7 +161,7 @@ class App extends React.Component{
 		equals = {this.equals}
 		decimal = {this.decimal}/>
 	  <h3 id = 'display'>{this.state.currentVal}</h3>
-	  <h3>allDisplay: {this.state.allDisplay}</h3>
+	  <h3>{this.state.allDisplay}</h3>
     </div>
 	)};
 }
