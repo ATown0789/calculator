@@ -138,7 +138,7 @@ class App extends React.Component{
 		equals = {this.equals}
 		decimal = {this.decimal}/>
 	  <h3 id = 'display'>currentDisplay: {this.state.currentVal}</h3>
-	  <h3>allDisplay: {this.state.allDisplay}</h3>
+	  <h3 id = 'display'>allDisplay: {this.state.allDisplay}</h3>
     </div>
 	)};
 }
